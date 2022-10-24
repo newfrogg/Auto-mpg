@@ -1,6 +1,6 @@
 # Import needed library
 library(tidyverse)
-
+library(stringr)
 
 
 # Clearing the R console
@@ -31,10 +31,10 @@ cols = ncol(dframe)
 #     print(typeof(dframe[, i]) )
 # }
 
-dframe[,c(1,2,3,4,5)] <- suppressWarnings(apply(dframe[,c(1,2,3,4,5)], 2, as.integer))
+dframe[,c(2,3,4,5)] <- suppressWarnings(apply(dframe[,c(2,3,4,5)], 2, as.integer))
 
 dframe[,6] <- as.numeric(dframe[, 6])
-
+dframe[,1] <- as.numeric(dframe[, 1])
 message("Our dataset has a missing property in at least 1 sample. In this case, N/A appears in 5th column (horsepower)")
 
 # Package to .csv file
@@ -53,10 +53,81 @@ if (is.null(
 # Cleaning data 
 
 ## Get the domain knowledge
-cat("\n\tGlimpse of data set\n")
-dframe %>% glimpse()
 
-cat("\n\tSummary:\n")
-print(dframe %>% summary())
+# cat("\n\tGlimpse of data set\n")
+# dframe %>% glimpse()
+# 
+# cat("\n\tSummary:\n")
+# dframe %>% summary()
 
+## Exploratory data
 
+### mpg 
+cat("\tMpg\n")
+
+print(dframe$mpg %>% summary())
+
+hist_mpg <- ggplot(dframe, aes(x = mpg, color = "black")) +
+    geom_histogram(color="#F70F26", fill="#F6BAC0", binwidth=2) + 
+    labs(title="Mile Per Gallon Histogram Plot", x="Miles Per Gallon", y="Count") +
+    theme_light()
+
+box_mpg <- ggplot(dframe, aes(x = mpg)) +
+    geom_boxplot(color="#F70F26", fill="#F6BAC0") +
+    labs(title="Mile Per Gallon Box Plot", x="Miles Per Gallon", y="Count") +
+    theme_light()
+
+print(hist_mpg)
+print(box_mpg)
+
+### horsepower
+
+cat("\tHorsepower\n")
+
+print(dframe$horsepower %>% summary())
+
+hist_horse <- ggplot(dframe, aes(x = horsepower)) +
+    geom_histogram(color="#F70F26", fill="#F6BAC0", binwidth=5) + 
+    labs(title="Horsepower Histogram Plot", x="Horsepower", y="Count") +
+    theme_light()
+
+box_horse <- ggplot(dframe, aes(x = horsepower)) +
+    geom_boxplot(color="#F70F26", fill="#F6BAC0") +
+    labs(title="Horsepower Box Plot", x="Horsepower", y="Count") +
+    theme_light()
+
+print(hist_horse)
+print(box_horse)
+
+# carname
+cat("\tCar name\n")
+
+## Split car name as their brand
+dframe$carname <- str_split(dframe$carname, pattern=" ", simplify=TRUE)[, 1]
+
+dframe$carname <- as.factor(dframe$carname)
+
+# print(dframe$carname %>% summary())
+
+## Fix misspell error
+dframe$carname <- as.character(dframe$carname)
+
+dframe$carname[dframe$carname == "chevroelt"] <- "chevrolet"
+dframe$carname[dframe$carname == "hi"] <- NA
+dframe$carname[dframe$carname == "maxda"] <- "mazda"
+dframe$carname[dframe$carname == "mercedes-benz"] <- "mercedes"
+dframe$carname[dframe$carname == "toyouta"] <- "toyota"
+dframe$carname[dframe$carname == "vokswagen"] <- "volkswagen"
+
+dframe$carname <- as.factor(dframe$carname)
+
+print(dframe$carname %>% summary())
+
+# Display Histogram
+stat_carname <- ggplot(dframe, aes(x=carname)) + 
+    stat_count(color="#F70F26", fill="#F6BAC0") + 
+    labs(title="Car name Histogram Plot", x="Car name", y="Count") +
+    coord_flip()
+    theme_light()
+
+print(stat_carname)
