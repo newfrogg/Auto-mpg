@@ -6,9 +6,7 @@ library(tidymodels)
 # Clearing the R console
 cat("\014")  
 
-
 # Clearing the Environment
-
 rm(list = ls())
 
 
@@ -26,11 +24,6 @@ rows = nrow(dframe)
 cols = ncol(dframe)
 
 # Change data type
-
-# for (i in 1:cols) {
-#     print(typeof(dframe[, i]) )
-# }
-
 dframe[,c(2,3,4,5)] <- suppressWarnings(apply(dframe[,c(2,3,4,5)], 2, as.integer))
 
 dframe[,6] <- as.numeric(dframe[, 6])
@@ -38,7 +31,6 @@ dframe[,1] <- as.numeric(dframe[, 1])
 message("Our dataset has a missing property in at least 1 sample. In this case, N/A appears in 5th column (horsepower)")
 
 # Package to .csv file
-
 fileName <- "./data/auto-mpg.csv"
 
 if (is.null(
@@ -51,9 +43,7 @@ if (is.null(
     print("Writing to CSV successfully.")
 
 # Cleaning data 
-
 ## Get the domain knowledge
-
 cat("\n\tGlimpse of data set\n")
 dframe %>% glimpse()
 
@@ -61,7 +51,6 @@ cat("\n\tSummary:\n")
 dframe %>% summary()
 
 ## Exploratory data
-
 ### mpg 
 cat("\tMpg\n")
 
@@ -81,7 +70,6 @@ print(hist_mpg)
 print(box_mpg)
 
 ### horsepower
-
 cat("\tHorsepower\n")
 
 print(dframe$horsepower %>% summary())
@@ -101,13 +89,10 @@ print(box_horse)
 
 ### carname
 cat("\tCar name\n")
-
 #### Split car name as their brand
 dframe$carname <- str_split(dframe$carname, pattern=" ", simplify=TRUE)[, 1]
 
 dframe$carname <- as.factor(dframe$carname)
-
-# print(dframe$carname %>% summary())
 
 #### Fix misspell error
 dframe$carname <- as.character(dframe$carname)
@@ -134,14 +119,13 @@ print(stat_carname)
 
 
 # Modeling data
-
 set.seed(123)
 ## Split Training/Testing data set
 
 dframe_split <- initial_split(dframe, prop=0.503)
-# Training dataset
+### Training dataset
 auto_mpg1 <- training(dframe_split)
-# Testing dataset
+### Testing dataset
 auto_mpg2 <- testing(dframe_split)
 
 
