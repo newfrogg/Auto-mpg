@@ -1,7 +1,7 @@
 # Import needed library
 library(tidyverse)
 library(stringr)
-
+library(tidymodels)
 
 # Clearing the R console
 cat("\014")  
@@ -54,11 +54,11 @@ if (is.null(
 
 ## Get the domain knowledge
 
-# cat("\n\tGlimpse of data set\n")
-# dframe %>% glimpse()
-# 
-# cat("\n\tSummary:\n")
-# dframe %>% summary()
+cat("\n\tGlimpse of data set\n")
+dframe %>% glimpse()
+
+cat("\n\tSummary:\n")
+dframe %>% summary()
 
 ## Exploratory data
 
@@ -99,17 +99,17 @@ box_horse <- ggplot(dframe, aes(x = horsepower)) +
 print(hist_horse)
 print(box_horse)
 
-# carname
+### carname
 cat("\tCar name\n")
 
-## Split car name as their brand
+#### Split car name as their brand
 dframe$carname <- str_split(dframe$carname, pattern=" ", simplify=TRUE)[, 1]
 
 dframe$carname <- as.factor(dframe$carname)
 
 # print(dframe$carname %>% summary())
 
-## Fix misspell error
+#### Fix misspell error
 dframe$carname <- as.character(dframe$carname)
 
 dframe$carname[dframe$carname == "chevroelt"] <- "chevrolet"
@@ -123,7 +123,7 @@ dframe$carname <- as.factor(dframe$carname)
 
 print(dframe$carname %>% summary())
 
-# Display Histogram
+#### Display Histogram
 stat_carname <- ggplot(dframe, aes(x=carname)) + 
     stat_count(color="#F70F26", fill="#F6BAC0") + 
     labs(title="Car name Histogram Plot", x="Car name", y="Count") +
@@ -131,3 +131,21 @@ stat_carname <- ggplot(dframe, aes(x=carname)) +
     theme_light()
 
 print(stat_carname)
+
+
+# Modeling data
+
+set.seed(123)
+## Split Training/Testing data set
+
+dframe_split <- initial_split(dframe, prop=0.503)
+# Training dataset
+auto_mpg1 <- training(dframe_split)
+# Testing dataset
+auto_mpg2 <- testing(dframe_split)
+
+
+
+
+
+
