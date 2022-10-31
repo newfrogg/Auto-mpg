@@ -129,11 +129,6 @@ box_horse <- ggplot(auto, aes(x = horsepower)) +
 print(hist_horse)
 print(box_horse)
 
-# carname
-cat("\tCar name\n")
-#### Split car name as their brand
-auto$carname <- str_split(auto$carname, pattern=" ", simplify=TRUE)[, 1]
-
 ### weight
 
 cat("\tWeight\n")
@@ -215,7 +210,7 @@ print(stat_origin)
 cat("\tCar name\n")
 #### Split car name as their brand
 auto$carname <- str_split(auto$carname, pattern=" ", simplify=TRUE)[, 1]
-
+>>>>>>> Stashed changes
 
 auto$carname <- as.factor(auto$carname)
 
