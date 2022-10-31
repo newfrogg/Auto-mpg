@@ -27,13 +27,11 @@ cols = ncol(auto)
 # Change data type
 
 # for (i in 1:cols) {
-#     print(typeof(dframe[, i]) )
+#     print(typeof(auto[, i]) )
 # }
 
-dframe[,c(2,3,4,5)] <- suppressWarnings(apply(dframe[,c(2,3,4,5)], 2, as.integer))
-=======
 auto[,c(2,3,4,5)] <- suppressWarnings(apply(auto[,c(2,3,4,5)], 2, as.integer))
->>>>>>> Stashed changes
+
 
 auto[,6] <- as.numeric(auto[, 6])
 auto[,1] <- as.numeric(auto[, 1])
@@ -55,13 +53,13 @@ if (is.null(
 
 ## Get the domain knowledge
 cat("\n\tGlimpse of data set\n")
-dframe %>% glimpse()
+auto %>% glimpse()
 
-# cat("\n\tGlimpse of data set\n")
-# dframe %>% glimpse()
-# 
-# cat("\n\tSummary:\n")
-# dframe %>% summary()
+cat("\n\tGlimpse of data set\n")
+auto %>% glimpse()
+
+cat("\n\tSummary:\n")
+auto %>% summary()
 
 ## Exploratory data
 ### mpg 
@@ -134,8 +132,8 @@ print(box_horse)
 # carname
 cat("\tCar name\n")
 #### Split car name as their brand
-dframe$carname <- str_split(dframe$carname, pattern=" ", simplify=TRUE)[, 1]
-=======
+auto$carname <- str_split(auto$carname, pattern=" ", simplify=TRUE)[, 1]
+
 ### weight
 
 cat("\tWeight\n")
@@ -217,18 +215,16 @@ print(stat_origin)
 cat("\tCar name\n")
 #### Split car name as their brand
 auto$carname <- str_split(auto$carname, pattern=" ", simplify=TRUE)[, 1]
->>>>>>> Stashed changes
+
 
 auto$carname <- as.factor(auto$carname)
 
-# print(dframe$carname %>% summary())
+# print(auto$carname %>% summary())
 
-## Fix misspell error
-dframe$carname <- as.character(dframe$carname)
-=======
+
 #### Fix misspell error
 auto$carname <- as.character(auto$carname)
->>>>>>> Stashed changes
+
 
 auto$carname[auto$carname == "chevroelt"] <- "chevrolet"
 auto$carname[auto$carname == "hi"] <- NA
@@ -242,22 +238,16 @@ auto$carname <- as.factor(auto$carname)
 print(auto$carname %>% summary())
 
 # Display Histogram
-stat_carname <- ggplot(dframe, aes(x=carname)) + 
-    stat_count(color="#F70F26", fill="#F6BAC0") + 
+
+
+#### Display Histogram
+stat_carname <- ggplot(auto, aes(x=carname)) +
+    stat_count(color="#F70F26", fill="#F6BAC0") +
     labs(title="Car name Histogram Plot", x="Car name", y="Count") +
     coord_flip()
     theme_light()
 
 print(stat_carname)
-=======
-# #### Display Histogram
-# stat_carname <- ggplot(auto, aes(x=carname)) + 
-#     stat_count(color="#F70F26", fill="#F6BAC0") + 
-#     labs(title="Car name Histogram Plot", x="Car name", y="Count") +
-#     coord_flip()
-#     theme_light()
-# 
-# print(stat_carname)
 
 
 # Modeling data
@@ -273,18 +263,7 @@ auto_mpg2 <- testing(auto_split)
 
 
 
->>>>>>> Stashed changes
 
-
-# Modeling data
-set.seed(123)
-## Split Training/Testing data set
-
-dframe_split <- initial_split(dframe, prop=0.503)
-### Training dataset
-auto_mpg1 <- training(dframe_split)
-### Testing dataset
-auto_mpg2 <- testing(dframe_split)
 
 
 
